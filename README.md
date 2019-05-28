@@ -1,4 +1,4 @@
-# vbm688_hw03
+# vbm688_hw02
 
 Golang implementation for forward chaining algorithm for propositional logic. 
 Note: just started, not complete
