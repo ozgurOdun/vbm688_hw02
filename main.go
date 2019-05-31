@@ -17,7 +17,7 @@ func main() {
 	}
 	var goal string
 	goal = args[1]
-	fmt.Println("Goal is ", goal)
+	fmt.Println("Goal is", goal)
 	kb := utils.InputParser("kb.txt")
 	if kb == nil {
 		return
@@ -29,7 +29,7 @@ func main() {
 	if entails {
 		utils.ProofPrinter(proof)
 	} else {
-		fmt.Println("FALSE")
+		fmt.Println("\n\nFALSE\n\n")
 	}
 	fmt.Println("End...", time.Now())
 	elapsed := time.Since(startTime)

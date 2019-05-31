@@ -18,24 +18,24 @@ func InputParser(fileName string) [][]string {
 	checkErr(err)
 
 	rawInput := make([]byte, 100)
+	//var rawInput []byte
 	n, err := file.Read(rawInput)
 	if n > 0 {
-		//fmt.Println("Raw input is: ", string(rawInput))
+		fmt.Println("Raw input is: ", string(rawInput), n)
 	}
-	inputLines := strings.Split(string(rawInput), "\r\n")
+	inputLines := strings.Split(string(rawInput[:n]), "\r\n")
 	//fmt.Println(len(inputLines))
 
 	kb := make([][]string, len(inputLines))
-	for i := 0; i < len(inputLines); i++ {
-		//fmt.Println(i, inputLines[i])
+	for i := 0; i < len(inputLines)-1; i++ {
 		tmp := strings.Split(inputLines[i], " ")
 		kb[i] = make([]string, len(tmp))
 		for j := 0; j < len(tmp); j++ {
-			kb[i][j] = tmp[j]
+			kb[i][j] = strings.ToUpper(strings.TrimSpace(string(tmp[j])))
 		}
 
 	}
-
+	fmt.Println(kb)
 	return kb
 }
 
@@ -55,7 +55,7 @@ func ProofBuilder(clause1 string, clause2, resolvent []string) (bool, []string) 
 			resolventStr = resolventStr + " " + resolvent[v]
 		}
 	}
-	if strings.Compare(resolventStr, "") == 0 {
+	if strings.EqualFold(resolventStr, "") {
 		return false, nil
 	}
 
@@ -64,17 +64,17 @@ func ProofBuilder(clause1 string, clause2, resolvent []string) (bool, []string) 
 }
 
 func ProofPrinter(proof [][]string) {
-	fmt.Printf("|Clause1   |Clause2   |Resolvent |\n")
+	fmt.Printf("\n\n|Clause1   |Clause2   |Resolvent |\n")
 	for v := range proof {
 		if len(proof[v]) == 3 {
 			fmt.Printf("|%-10s|%-10s|%-10s|\n", proof[v][0], proof[v][1], proof[v][2])
 		}
 	}
-
+	fmt.Println("\n")
 }
 
 func IsGoal(goal, query string) bool {
-	if strings.Compare(goal, query) == 0 {
+	if strings.EqualFold(goal, query) {
 		return true
 	}
 	return false

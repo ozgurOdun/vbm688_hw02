@@ -1,4 +1,7 @@
-P
-Q
-!P R
-!Q !R S
+A
+B
+!P Q
+!L !M p
+!B !L M
+!A !P L
+!A !B l
