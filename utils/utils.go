@@ -16,12 +16,11 @@ func checkErr(e error) {
 func InputParser(fileName string) [][]string {
 	file, err := os.Open(fileName)
 	checkErr(err)
-
 	rawInput := make([]byte, 100)
 	//var rawInput []byte
 	n, err := file.Read(rawInput)
 	if n > 0 {
-		fmt.Println("Raw input is: ", string(rawInput), n)
+		//fmt.Println("Raw input is: ", string(rawInput), n)
 	}
 	inputLines := strings.Split(string(rawInput[:n]), "\r\n")
 	//fmt.Println(len(inputLines))
@@ -31,11 +30,11 @@ func InputParser(fileName string) [][]string {
 		tmp := strings.Split(inputLines[i], " ")
 		kb[i] = make([]string, len(tmp))
 		for j := 0; j < len(tmp); j++ {
-			kb[i][j] = strings.ToUpper(strings.TrimSpace(string(tmp[j])))
+			kb[i][j] = tmp[j]
 		}
 
 	}
-	fmt.Println(kb)
+	//fmt.Println(kb)
 	return kb
 }
 
