@@ -13,7 +13,7 @@ func checkErr(e error) {
 	}
 }
 
-func InputParser(fileName string) []string {
+func InputParser(fileName string) [][]string {
 	file, err := os.Open(fileName)
 	checkErr(err)
 
@@ -24,7 +24,19 @@ func InputParser(fileName string) []string {
 	}
 	inputLines := strings.Split(string(rawInput), "\r\n")
 	fmt.Println(len(inputLines))
-	return inputLines
+
+	kb := make([][]string, len(inputLines))
+	for i := 0; i < len(inputLines); i++ {
+		fmt.Println(i, inputLines[i])
+		tmp := strings.Split(inputLines[i], " ")
+		kb[i] = make([]string, len(tmp))
+		for j := 0; j < len(tmp); j++ {
+			kb[i][j] = tmp[j]
+		}
+
+	}
+
+	return kb
 }
 
 func IsGoal(goal, query string) bool {
