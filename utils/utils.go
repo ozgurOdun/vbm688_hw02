@@ -128,9 +128,10 @@ func SymbolIsInPremise(premise []string, p string) bool {
 }
 
 func RemoveElementFromSlice(slice []string, index int) []string {
-	slice[index] = slice[len(slice)-1]
-	slice[len(slice)-1] = ""
-	slice = slice[:len(slice)-1]
+	//slice[index] = slice[len(slice)-1]
+	//slice[len(slice)-1] = ""
+	//slice = slice[:len(slice)-1]
+	slice = slice[1:]
 	return slice
 }
 

@@ -1,6 +1,7 @@
 package forwardChaining
 
 import (
+	"fmt"
 	"github.com/ozgurOdun/vbm688_hw02/utils"
 )
 
@@ -28,6 +29,7 @@ func Entails(kb [][]string, goal string) (bool, [][]string) {
 
 	for ok := true; ok; ok = len(agenda) != 0 {
 		p := agenda[0]
+		fmt.Println("agenda", agenda)
 		agenda = utils.RemoveElementFromSlice(agenda, 0)
 		if utils.IsGoal(goal, p) {
 			return true, proof
@@ -47,12 +49,13 @@ func Entails(kb [][]string, goal string) (bool, [][]string) {
 						proof[stepCounter] = make([]string, 3)
 						//utils.CopySlice(proof[stepCounter], step)
 						proof[stepCounter] = step
-						//fmt.Printf("step:%s,%s,%s\n", step[0], step[1], step[2])
+						fmt.Printf("step:%s,%s,%s\n", step[0], step[1], step[2])
 						stepCounter++
 					}
 
 					if count[a] == 1 {
 						agenda = append(agenda, kb[a][0])
+						fmt.Println("agenda1", agenda)
 					}
 				}
 			}
