@@ -14,11 +14,6 @@ func checkErr(e error) {
 }
 
 func InputParser(fileName string) []string {
-	board := make([][]int, 3)
-	for i := 0; i < 3; i++ {
-		board[i] = make([]int, 3)
-	}
-
 	file, err := os.Open(fileName)
 	checkErr(err)
 
@@ -27,17 +22,93 @@ func InputParser(fileName string) []string {
 	if n > 0 {
 		fmt.Println("Raw input is: ", string(rawInput))
 	}
-	var inpStr []string
-	inputLines := strings.Split(string(rawInput), "\n")
+	inputLines := strings.Split(string(rawInput), "\r\n")
 	fmt.Println(len(inputLines))
-	for i := 0; i < len(inputLines); i++ {
-		fmt.Printf("Input line %d is %s\n", i, inputLines[i])
-		inpStr = strings.Split(inputLines[i], " ")
-		fmt.Println("len of inpStr is:", len(inpStr))
+	return inputLines
+}
+
+func IsGoal(goal, query string) bool {
+	if strings.Compare(goal, query) == 0 {
+		return true
+	}
+	return false
+}
+
+func IsTrue(query string) bool {
+	if strings.HasPrefix(query, "!") {
+		return true
+	}
+	return false
+}
+func stripNeg(query string) string {
+	if strings.HasPrefix(query, "!") {
+		return strings.Replace(query, "!", "", -1)
+	}
+	return query
+}
+func stripSpace(query string) string {
+	return strings.Replace(query, " ", "", -1)
+
+}
+
+func removeDuplicatesUnordered(elements []string) []string {
+	encountered := map[string]bool{}
+
+	// Create a map of all unique elements.
+	for v := range elements {
+		encountered[elements[v]] = true
+	}
+	// Place all keys from the map into a slice.
+	result := []string{}
+	for key := range encountered {
+		result = append(result, key)
+	}
+	return result
+}
+
+func SymbolTable(kb [][]string) []string {
+	var symbolsDuplicate []string
+	for i := 0; i < len(kb); i++ {
+		for j := 0; j < len(kb[i]); j++ {
+			symbolsDuplicate = append(symbolsDuplicate, stripNeg(kb[i][j]))
+		}
+	}
+	symbols := removeDuplicatesUnordered(symbolsDuplicate)
+	return symbols
+}
+
+func SymbolIsInPremise(premise []string, p string) bool {
+	for v := range premise {
+		if strings.Contains(premise[v], p) {
+			return true
+		}
 
 	}
+	return false
+}
+func Pop(slice []string, s int) []string {
+	return append(slice[:s], slice[s+1:]...)
+}
+func RemoveElementFromSlice(slice []string, index int) []string {
+	slice[index] = slice[len(slice)-1]
+	slice[len(slice)-1] = ""
+	slice = slice[:len(slice)-1]
+	return slice
+}
 
-	return inpStr
+func ElementLocator(slice []string, find string) int {
+	for v := range slice {
+		if strings.Contains(slice[v], find) {
+			return v
+		}
+	}
+	return -1
+}
+
+func CopySlice(dst []string, src []string) {
+	for v := range src {
+		dst[v] = src[v]
+	}
 }
 
 /////// MEMORY METHODS
