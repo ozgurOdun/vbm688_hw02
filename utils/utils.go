@@ -20,14 +20,14 @@ func InputParser(fileName string) [][]string {
 	rawInput := make([]byte, 100)
 	n, err := file.Read(rawInput)
 	if n > 0 {
-		fmt.Println("Raw input is: ", string(rawInput))
+		//fmt.Println("Raw input is: ", string(rawInput))
 	}
 	inputLines := strings.Split(string(rawInput), "\r\n")
-	fmt.Println(len(inputLines))
+	//fmt.Println(len(inputLines))
 
 	kb := make([][]string, len(inputLines))
 	for i := 0; i < len(inputLines); i++ {
-		fmt.Println(i, inputLines[i])
+		//fmt.Println(i, inputLines[i])
 		tmp := strings.Split(inputLines[i], " ")
 		kb[i] = make([]string, len(tmp))
 		for j := 0; j < len(tmp); j++ {
@@ -39,6 +39,40 @@ func InputParser(fileName string) [][]string {
 	return kb
 }
 
+func ProofBuilder(clause1 string, clause2, resolvent []string) (bool, []string) {
+	var clause2Str, resolventStr string
+	for v := range clause2 {
+		if v == 0 {
+			clause2Str = clause2[v]
+		} else {
+			clause2Str = clause2Str + " " + clause2[v]
+		}
+	}
+	for v := range resolvent {
+		if v == 0 {
+			resolventStr = resolvent[v]
+		} else {
+			resolventStr = resolventStr + " " + resolvent[v]
+		}
+	}
+	if strings.Compare(resolventStr, "") == 0 {
+		return false, nil
+	}
+
+	step := []string{clause1, clause2Str, resolventStr}
+	return true, step
+}
+
+func ProofPrinter(proof [][]string) {
+	fmt.Printf("|Clause1   |Clause2   |Resolvent |\n")
+	for v := range proof {
+		if len(proof[v]) == 3 {
+			fmt.Printf("|%-10s|%-10s|%-10s|\n", proof[v][0], proof[v][1], proof[v][2])
+		}
+	}
+
+}
+
 func IsGoal(goal, query string) bool {
 	if strings.Compare(goal, query) == 0 {
 		return true
@@ -46,12 +80,6 @@ func IsGoal(goal, query string) bool {
 	return false
 }
 
-func IsTrue(query string) bool {
-	if strings.HasPrefix(query, "!") {
-		return true
-	}
-	return false
-}
 func stripNeg(query string) string {
 	if strings.HasPrefix(query, "!") {
 		return strings.Replace(query, "!", "", -1)
@@ -98,9 +126,7 @@ func SymbolIsInPremise(premise []string, p string) bool {
 	}
 	return false
 }
-func Pop(slice []string, s int) []string {
-	return append(slice[:s], slice[s+1:]...)
-}
+
 func RemoveElementFromSlice(slice []string, index int) []string {
 	slice[index] = slice[len(slice)-1]
 	slice[len(slice)-1] = ""

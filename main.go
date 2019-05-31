@@ -24,7 +24,13 @@ func main() {
 	}
 	fmt.Println("Starting...", time.Now())
 	startTime := time.Now()
-	fmt.Println("Entails:", forwardChaining.Entails(kb, goal))
+	entails, proof := forwardChaining.Entails(kb, goal)
+	//fmt.Println("proof,", proof)
+	if entails {
+		utils.ProofPrinter(proof)
+	} else {
+		fmt.Println("FALSE")
+	}
 	fmt.Println("End...", time.Now())
 	elapsed := time.Since(startTime)
 	fmt.Println("Process took:", elapsed)
